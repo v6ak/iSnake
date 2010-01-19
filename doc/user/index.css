@@ -1,0 +1,7 @@
+img.itemdescr{
+  float: left;
+  margin: 5px;
+}
+li{
+  clear: left;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="PSPad editor, www.pspad.com">
+    <link rel="stylesheet" href="../main.css" type="text/css">
+  <title>Programátorská příručka ke iSnake</title>
+</head>
+<body>
+  <h1>Programátorská příručka ke iSnake</h1>
+  <p>Program byl napsán v ObjectPascalu za použití jednotky graph, winCrt a mnoha dalších. 
+  <h2>Architektura</h2>
+  <p>Ačkoli byla zvážena architektura <a href="http://en.wikipedia.org/wiki/Model_View_Presenter">Model View Presenter (MVP)</a>, zjistil jsem, že některá místa by byla s touto architekturou zbytečně složitá (zvlášť v kombinaci s jazykem), takže jsem nakonec zvolil architekturu Autonomous View.
+  <p>Nechtěl jsem pro multitasking použít žádné speciální API, proto jsem implementoval kooperativní multitasking (unita v6_multitasking).
+  <p>Při programování bylo použito OOP včetně různých návrhových vzorů, například <a href="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a>, <a href="http://en.wikipedia.org/wiki/Strategy_pattern">Strategy</a>, <a href="http://en.wikipedia.org/wiki/Factory_pattern">Factory</a> a <a href="http://en.wikipedia.org/wiki/Command_pattern">Command</a>. Díky těmto návrhovým vzorům bylo dosaženo vysoké modularity, kterou můžete využít při dalším rozšiřování aplikace a díky nimž by mělo být pochopení aplikace snadnější, protože umožňují se soustředit jen na daný problém a neřešit detaily, které mohou být přesunuty do zodpovědnosti jiných tříd. To znamená, že návrh neporušuje <a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">Single responsibility principle</a>. Další výhodou je vysoká znovupoužitelnost kódu - naprostá většina kódu je soustředěna v&nbsp;knihovnách a&nbsp;při menším refaktoringu by se to mohlo ještě zlepšit. Vzhledem k&nbsp;použitým API jsem však zvolil i&nbsp;alespoň jeden antivzor - jsem si vědom použití <a href="http://en.wikipedia.org/wiki/Busy_waiting">Busy waiting</a>. (Použitá API totiž nenabízejí lepší řešení - vizte použití unity v6_waiting v&nbsp;unitě v6_keys.)
+  <h2>Rozvržení souborů</h2>
+  <p>Jedna <strong>unita odpovídá</strong> zhruba <strong>jednomu package v Javě</strong>. Proto <strong>projekt obsahuje tak málo souborů</strong>. Pokud bych vytvářel soubor pro každou třídu/rozhraní zvlášť, byl by problém s&nbsp;cyklickým uses.
+  <h2>Kompilace</h2>
+  <p>Program je určen pro OS Windows. Je sice možné, že bude fungovat i na jiných operačních systémech, ale nebyl na nich testován<!-- a&nbsp;zákazníkům nebudeme poskytovat na tyto systémy podporu-->.
+  <p>Kompilován byl ve FreePascalu 2.2.4. Ačkoli je možné, že jej bude možné zkompilovat (a&nbsp;potom bude funkční) i&nbsp;jiným kompilátorem nebo nižší verzí, nebylo to dosud ověřeno. Pokud nechcete experimentovat, použijte tedy kompilátor FreePascal verze 2.2.4 nebo vyšší. Na experimenty nenabízíme podporu.
+  <h3>Základní kompilace</h3>
+  <ol>
+    <li>Běžte do adresáře src.
+    <li>Ověřte, že nadřazený adresář obsahuje adresář bin. Pokud ne, lze jej vytvořit přikazem <code>md ..\bin</code>.
+    <li>Spusťte kompilátor FreePascal compiler s příslušnými parametry. <strong>Upozornění: tyto parametry jsou case sensitive!</strong> Dbejte proto, prosím, na velikost písmen! Mezi tyto parametry patří (detailnější popis poskytuje manuál kompilátoru):
+      <ul>
+        <li><strong><code>-S2</code></strong> - zapíná podporu nového OOP
+        <li><strong><code>-vewnil</code></strong> - nastavuje vhodně hlášky kompilátoru
+        <li><strong><code>-FE..\bin</code></strong> - nastavuje výstup do adresáře ..\bin
+        <li><strong><code>iSnake.pas</code> - poslední parametr!</strong> - název komilovaného souboru
+      </ul>
+  </ol>
+  <p class="example">Pokud máte FreePascal compiler v <code>U:\programy\FPC\</code>, pak použijte příkaz <code>U:\programy\FPC\bin\i386-win32\fpc.exe -S2 -vewnil -FE..\bin iSnake.pas</code>
+  <p>Není nutné kompilovat jednotlivé unity zvlášť - FreePascal compiler si najde závislosti a&nbsp;zkompiluje i&nbsp;je. Dokonce po kompilaci a následné úpravě umí při další kompilaci (pravděpodobně podle data poslední změny) zjistit, zda byla unita upravena. V takovém případě invaliduje zkompilovanou unitu a nechá ji zkompilovat znovu. Pokud tedy máte zdrojové kódy, zřejmě soubory *.ppu apod. slouží pouze jako cache. <strong>Není ale vhodné toto vaužívat i&nbsp;při změně voleb (např při změně mezi základní a&nbsp;ladící kompilací). V&nbsp;takovém případě doporučuji smazat *.ppu, *.o a *.exe z adresáře bin a&nbsp;celý program zkompilovat znovu.</strong>
+  <h4>Časté problémy</h4>
+  <ul>
+    <li>Na některých instalacích nenajde kompilátor unitu graph. To však lze snadno vyřešit pomocí <code>-Fu<em>cesta</em></code>, například <code>-FuU:\programy\FPC\units\i386-win32\graph</code>. Celý příkaz by pak vypadal například <code><code>U:\programy\FPC\bin\i386-win32\fpc.exe -S2 -vewnil -FE..\bin -FuU:\programy\FPC\units\i386-win32\graph iSnake.pas</code></code>.
+  </ul>
+  <h3>Kompilace pro ladění</h3>
+  <p>Tato kompilace je vhodná ladění například kontrolou uvolňování heapu a výpis kompletního stacktrace (v&nbsp;rámci možností - podle zkušeností to není stoprocentní). Mezi nevýhody patří nižší výkon a pro uživatele obtěžující výstup unity heaptrc při ukončení programu. Tento výstup je pro programátora samozřejmě velmi cenný - umožňuje nejen zkontrolovat, že nedošlo k memory leaku, ale také zjistit, kde došlo k alokaci neuvolňěného bloku - nejen soubor a&nbsp;řádek, ale celý heaptrace. Pokud nepočítám kvalitní garbage collector (žádný reference counting možný zmást cyklickými referencemi), pak nic lepšího si programátor snad nemůže přát. Ke stávajícím parametrům přidejte pár ladících. <strong>Dbejte však na to, aby název kompilovaného souboru zůstal jako poslední parametr!</strong>
+  <ul>
+    <li>-gc
+    <li>-gp
+    <li>-gl
+    <li>-gh
+    <li>-ddeb
+  </ul>
+  <p>Bližší popis poskytuje manuál kompilátoru.
+  <p>Tato varianta programu navíc vytváří v aktuálním adresáři log nazvaný <code>iSnake.log</code>. Menším nedostatkem je, že je nutné mít práva k zápisu do tohoto souboru a pokud není tato podmínka splněna, program skončí nezachycenou výjimkou. Toto také může nastat v průběhu vykonávání programu, pokud dojde k&nbsp;chybě zápisu do logu. Protože ladící verze není produkční verzí a&nbsp;protože by bylo problematické tyto výjimky dobře ošetřovat, toto ošetření jsem vynechal.
+  <!-- K:\pas2\spp\doc\prg>"d:\Program Files\FPC\2.2.4\bin\i386-win32\fpc.exe" -S2 -vewnil -FE..\bin -gc -gp -gl -gh  SnakePlusPlus.pas -->
+  <h2>Distribuce</h2>
+  <p>Program se bude distribuovat jako spustitelný soubor spolu s uživatelským manuálem.
+  <h2>Pokračování</h2>
+  <p>Jelikož je program velmi modulární, mělo by být snadné jej dále vyvíjet. Je sice pravda, že některé části by si zasloužily menší refaktoring (TextDrawer -> TextPainter, ISpaceDrawer -> ISpacePainter, ISpacePainter místo barvy v&nbsp;TextPainter apod.), ale to dalšímu vývoji nebrání nijak zásadně. Mezi možnosti dalšího vývoje patří:
+  <ul>
+    <li>Proměnlivý počet hráčů
+    <li>Více kol
+    <li>Větší možnosti nastavení
+    <li>Buffer pro příkazy jednotlivým hadům - nejlépe lze implementovat pomocí Decorateru rozhraní ISettableMover. Nedoporučuji dělat Decorator pro IKeyAccess, protože by to mělo mnoho nepříjemných postranních efektů.
+    <li>Různá pozadí (nutný menší refaktoring)
+    <li>Vlastní levely
+  </ul>
+  <p class="warning">Tyto úpravy však konzultujte s obchodním oddělením!
+</body>
+</html>

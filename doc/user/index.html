@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Uživatelský manuál k iSnake</title>
+  <link rel="stylesheet" href="../main.css" type="text/css">
+  <link rel="stylesheet" href="index.css" type="text/css">
+</head>
+<body>
+  <h1>Uživatelský manuál k iSnake</h1>
+  <p>Program je klasická hra had doplněná o další prvky.
+  <h2>Kompatibilita</h2>
+  <p>Program je určen pro systém Windows XP a&nbsp;vyšší pro procesory řady x86.
+  <h2>Instalace</h2>
+  <p>Zkopírujte soubor iSnake.exe po požadovaného adresáře.
+  <h3>Časté problémy</h3>
+  <ul>
+    <li><strong>Program mi nejde spustit.</strong> - je možné, že po vybalení z&nbsp;archívu budete mít pro soubor nastavena nedostatečná práva. Je také možné, že dostatečná práva bude mít jen jeden uživatel. Pokud chcete tento problém vyřešit, nastavte požadovanému okruhu uživatelů práva pro čtení a spouštění. Pokud s&nbsp;tímto úkonem máte jakýkoli problém, kontaktujte výrobce Vašeho operačního systému.
+  </ul>
+  <h2>Základ hry iSnake</h2>
+  <p>Základem hry je dvojrozměrné hrací pole. V tomto poli se nachází zejména:
+  <ul>
+    <li><img src="snake.png" alt="had" border="0" height="30" width="179" class="itemdescr"><strong>samotný had</strong> - reprezentace hráče, je neustále v pohybu. Může po pohybovat prázdným místem. S ostatními položkami hracího pole může docházet k určité interakci. Zabírá proměnlivý počet políček hracího pole. Lze rozlišit hlavu a zbytek těla hada. Had se pohybuje, jak lze očekávat, ve směru hlavy.
+    <li><img src="food.png" alt="jídlo" height="30" width="36" class="itemdescr"><strong>jídlo</strong> - hlavním úkolem v této hře je jíst jídlo. Je to útvar zabírající jedno políčko. Je možné jej sníst tak, že had se přesune na políčko s jídlem. Poté jídlo zmizí (je nahrazeno hlavou hada) a hráčovi, který je reprezentován hadem, který snědl dané jídlo, se přičte určitý počet bodů. V současné verzi to je 10 bodů, později se to může změnit. Jídlo je později nahrazeno novým, aby nebylo vyčerpáno.
+    <li><img src="wall.png" alt="zeď" height="30" width="36" class="itemdescr"><strong>zeď</strong> - zabírá jedno políčko a je to naprosto nehybný prvek hry, takže by do něj had neměl narazit, jinak zemře.
+    <li><img src="brick.png" alt="cihla" height="30" width="35" class="itemdescr"><strong>cihla (iBrick)</strong> - pohyblivý prvek hry. Je možné s ním jakkoli pohybovat. Možné je dokonce pohybovat i s více cihlami zároveň. Jediná podmínka však je, aby byl prostor, kam chcete cihlu přesouvat, volný. Tip: můžete cihly přesouvat tak, aby zavazely druhému hráči.
+    <li><img src="brick-china.png" alt="cihla z číny" height="30" width="35" class="itemdescr"><strong>cihla z Číny</strong> - tato cihla má navíc uvedeno číslo, které udává počet možných posunů. Po jeho vyčerpání cihla zmizí. Ačkoli se může zdát, že cihla s číslem jedna prostě zmizí po nárazu hadem, nestane se tak za všech okolností. Musí totiž za cihlou být volné místo. Pokud za cihlou není volné místo, bude políčko za cihlou posunuto (pokud to je možné) nebo had zemře.
+  </ul>
+  <h2>Průběh hry</h2>
+  <p>Na začátku hry je hrací pole zaplněno různými prvky hry (popsáno výše) a&nbsp;dvěma hráči.<br>
+  <img src="screenshot.png" alt="Ukázka hry" height="500" width="640">
+  <p>V&nbsp;levém horním rohu si můžete všimnout bodů obou hráčů. Vlevo jsou body modrého hráče, napravo jsou body šedého hráče.
+  <p>Modrý hráč se ovládá pomocí šipek, šedý hráč se ovládá pomocí kláves W, S, A a D. Každá z&nbsp;těchto kláves nastaví hadovi příslušný směr. Pokud se spletete, můžete to do pohybu hada kdykoli změnit. Aby to nebylo tak jednoduché, had se pochopitelně nemůže pohybovat v opačném směru, než směřuje jeho hlava. Pokud se spletete a hada otočíte opačným směrem než hlava, had zemře.
+  <h2>Řešení problémů a&nbsp;dotazů</h2>
+  <dl>
+    <dt>Mohu nějak přidat nový level?</dt>
+    <dd>Zatím vyčkejte. Připravujeme pro Vás iSnake Level Store.</dd>
+    <dt>Někde jsem na internetu našel nějaké levely. Mohu je použít?</dt>
+    <dd>Tyto levely nejsou schválené a mohou být nebezpečné! Může dojít k&nbsp;napadení Vašeho počítače nebo v lepším případě jen k nestabilitě aplikace. Uvědomte si, prosím, že jejich použití je nelegální!</dd>
+    <dt>Může tuto hru hrát jiný počet hráčů než dva? To něco takového neumíte vytvořit?</dt>
+    <dd>Vytvořit to samozřejmě dovedeme. Naše filozofie není o&nbsp;přidávání vlastností, které využije naprostá minorita. Tuto filozofii necháváme konkurenci. My se snažíme o&nbsp;maximálně použitelnou a&nbsp;pochopitelnou aplikaci. Z rozsáhlého výzkumu vyplývá, že 95% našich zákazníků by tuto možnost nikdy nevyužilo a 90% zákazníků by touto možností bylo dokonce obtěžováno, protože by dělali tuto hru nepřehlednou.</dd>
+    <dt>Nemyslíte, že váš výzkum dnes již neodpovídá realitě?</dt>
+    <dd>Skupinu co nejbližší našim zákazníkům samozřejmě neustále zkoumáme a&nbsp;je to to nejcennější, co udává směr našeho vývoje. Jste to tedy i Vy, na kom záleží, jak bude hra v&nbsp;budoucnu vypadat. Skutečně je v budoucnu možná podpora například tří uživatelů, pokud to výzkum ukáže jako přínosné.</dd>
+  </dl>
+  <h3>Podpora</h3>
+  <p>Pokud jste nenašli odpověď na svou otázku v&nbsp;často kladených dotazech, obraťte se, prosím, na nás pomocí formuláře na <a href="http://jabb.im/w">http://jabb.im/w</a> a&nbsp;můžeme to vyšešit. Další komunikace může probíhat buď mailem, nebo přes <a href="http://www.jabber.cz/">Jabber</a>.
+</body>
+</html>
